@@ -36,6 +36,12 @@
     <ClInclude Include="PlateRecognizer.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Plate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PlateDao.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TrafficMonitor.cpp">
@@ -48,6 +54,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="PlateRecognizer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Plate.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PlateDao.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
