@@ -191,6 +191,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TMClient.h" />
     <ClInclude Include="TMClientDlg.h" />
+    <ClInclude Include="Uploader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -201,6 +202,7 @@
     </ClCompile>
     <ClCompile Include="TMClient.cpp" />
     <ClCompile Include="TMClientDlg.cpp" />
+    <ClCompile Include="Uploader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TMClient.rc" />
