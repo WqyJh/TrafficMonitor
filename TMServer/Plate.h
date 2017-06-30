@@ -12,8 +12,20 @@ class Plate
 public:
 	Plate();
 	~Plate();
+
+	Plate(int, std::string, long, std::string);
 	
-	// todo: Ìí¼Ó Getter ºÍ Setter
+	int get_id();
+	void set_id(int);
+
+	std::string get_number();
+	void set_number(std::string);
+
+	long get_time();
+	void set_time(long);
+
+	std::string get_path();
+	void set_path(std::string);
 
 private:
 

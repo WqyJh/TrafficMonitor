@@ -10,3 +10,8 @@ PlateDao::PlateDao()
 PlateDao::~PlateDao()
 {
 }
+
+int PlateDao::save(const Plate& plate)
+{
+	return 1;
+}
