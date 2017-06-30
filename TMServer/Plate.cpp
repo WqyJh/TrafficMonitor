@@ -1,4 +1,4 @@
-#include "stdafx.h"
+
 #include "Plate.h"
 
 
@@ -13,16 +13,16 @@ Plate::~Plate()
 }
 
 
-Plate::Plate(int id, std::string number, long time, std::string path)
+Plate::Plate(std::string number, long time, std::string path)
 {
-	set_id(id);
+	set_id(0);
 	set_number(number);
 	set_time(time);
 	set_path(path);
 }
 
 
-int Plate::get_id()
+int Plate::get_id() const
 {
 	return _id;
 }
@@ -32,7 +32,7 @@ void Plate::set_id(int id)
 }
 
 
-std::string Plate::get_number()
+std::string Plate::get_number() const
 {
 	return _number;
 }
@@ -42,7 +42,7 @@ void Plate::set_number(std::string number)
 }
 
 
-long Plate::get_time()
+long Plate::get_time() const
 {
 	return _time;
 }
@@ -52,7 +52,7 @@ void Plate::set_time(long time)
 }
 
 
-std::string Plate::get_path()
+std::string Plate::get_path() const
 {
 	return _path;
 }

@@ -199,19 +199,24 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CppSQLite3.h" />
     <ClInclude Include="Plate.h" />
     <ClInclude Include="PlateDao.h" />
     <ClInclude Include="PlateRecognizer.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="sqlite3.h" />
+    <ClInclude Include="sqlite3ext.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TrafficMonitor.h" />
     <ClInclude Include="TrafficMonitorDlg.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CppSQLite3.cpp" />
     <ClCompile Include="Plate.cpp" />
     <ClCompile Include="PlateDao.cpp" />
     <ClCompile Include="PlateRecognizer.cpp" />
+    <ClCompile Include="sqlite3.c" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

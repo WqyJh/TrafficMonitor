@@ -42,6 +42,15 @@
     <ClInclude Include="PlateDao.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CppSQLite3.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sqlite3.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sqlite3ext.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TrafficMonitor.cpp">
@@ -60,6 +69,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="PlateDao.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CppSQLite3.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sqlite3.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

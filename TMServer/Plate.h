@@ -13,18 +13,18 @@ public:
 	Plate();
 	~Plate();
 
-	Plate(int, std::string, long, std::string);
+	Plate(std::string, long, std::string);
 	
-	int get_id();
+	int get_id() const;
 	void set_id(int);
 
-	std::string get_number();
+	std::string get_number() const;
 	void set_number(std::string);
 
-	long get_time();
+	long get_time() const;
 	void set_time(long);
 
-	std::string get_path();
+	std::string get_path() const;
 	void set_path(std::string);
 
 private:
@@ -40,7 +40,8 @@ private:
 	std::string _number;
 
 	/*
-	* 拍照时间
+	* 拍照时间  
+	* 从1970-1-1时开始的秒数 必须使用unix时间戳
 	*/
 	long _time;
 

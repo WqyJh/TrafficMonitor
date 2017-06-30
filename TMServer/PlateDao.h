@@ -3,6 +3,7 @@
 
 #include "Plate.h"
 #include <vector>
+#include "CppSQLite3.h"
 
 class PlateDao
 {
@@ -53,7 +54,7 @@ public:
 	* Return:
 	*		如果查询成功，返回一组符合条件的Plate的指针，失败则返回一个长度为0的向量。
 	*/
-	std::vector<Plate *> &findByNumber(std::string number);
+	std::vector<Plate *> findByNumber(std::string number);
 
 	/*
 	* Summary: 按时间查询数据
