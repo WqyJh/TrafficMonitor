@@ -9,6 +9,14 @@
 
 ## 开发人员必读
 
+### 合作开发原则
+每个人在克隆代码库后，应该新建一个自己的分支，然后再新分支上开发。编码完成，并通过代码测试后可以合并到主分支，然后推送到远程仓库。具体步骤如下
+1. git clone git@github.com:WqyJh/TrafficMonitor.git
+2. git checkout wqy (我创建一个wqy分支)
+3. 编码，测试
+4. git pull origin master (本地主分支和远程主分支同步)
+5. git merge (这个我还要具体研究一下该怎么merge，先不要执行这个操作)
+
 ### 添加单元测试的方法
 如果要对TMClient项目中的Uploader进行单元测试
 1. 在TMClientUnitTest项目中添加一个测试文件`UploaderTest.cpp`
