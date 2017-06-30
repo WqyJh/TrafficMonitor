@@ -12,8 +12,8 @@ namespace TMServerUnitTest
 
 		TEST_METHOD(test_plate)
 		{
-			Plate p(1, "123", 20170630, "D:\\vs-c");
-			Assert::AreEqual(1, p.get_id());
+			Plate p("123", 20170630, "D:\\vs-c");
+			Assert::AreEqual(0, p.get_id());
 
 			std::string str1("1234");
 			p.set_number(str1);
