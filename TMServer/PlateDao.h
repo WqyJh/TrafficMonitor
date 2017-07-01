@@ -34,7 +34,7 @@ public:
 	* Return:
 	*		0表示成功，非0表示失败
 	* Tips:
-	*       根据_number _time _path删除
+	*       根据_id删除
 	*/
 	int remove(const Plate &plate);
 

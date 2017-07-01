@@ -45,14 +45,15 @@ int PlateDao::remove(const Plate& plate)
 	CppSQLite3DB db;
 	db.open(gszFile);
 	//std::string number = plate.get_number();
-	std::string num = plate.get_number();
-	const char * number = num.c_str();
-	long time = plate.get_time();
+	//std::string num = plate.get_number();
+	//const char * number = num.c_str();
+	//long time = plate.get_time();
 	//std::string path = plate.get_path();
-	std::string pa = plate.get_path();
-	const char * path = pa.c_str();
+	//std::string pa = plate.get_path();
+	//const char * path = pa.c_str();
+	int id = plate.get_id();
 	CppSQLite3Buffer bufSQL;
-	bufSQL.format("DELETE FROM Plate WHERE number=%Q AND time=%ld AND path=%Q", number, time, path);
+	bufSQL.format("DELETE FROM Plate WHERE _id=%d", id);
 	int flag = db.execDML(bufSQL);
 	if (flag != 0)
 		return 0;
