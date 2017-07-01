@@ -1,9 +1,10 @@
 #include "CppUnitTest.h"
-#include "FileInfo.hpp"
+#include "FileInfo.h"
 #include <string>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
+
 
 namespace TMClientUnitTest
 {

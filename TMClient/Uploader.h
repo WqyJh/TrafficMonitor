@@ -21,17 +21,17 @@ public:
 	/*
 	* Summary: 初始化Uploader，在使用这个类之前必须先初始化，
 	*			初始化成功才能使用
-	* Return: 
+	* Return:
 	*		0 表示初始化成功，非0表示不成功
 	*/
-	static int initialize();
+	int initialize();
 
 	/*
 	* Summary: 停止使用Uploader，在程序退出时调用
 	* Return:
 	*		0 表示操作成功
 	*/
-	static int terminate();
+	int terminate();
 
 	/*
 	* Summary: 连接服务器
@@ -68,11 +68,11 @@ public:
 	* Return:
 	*		number of files that successfully uploaded
 	*/
-	int batch_upload(const std::string &path, const std::vector<const std::string> &filenames);
+	int batch_upload(const std::string &path, const std::vector<std::string> &filenames);
 
 private:
 
-	static WSADATA _wsa_data;
+	WSADATA _wsa_data;
 
 	SOCKET _sock;
 

@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include "Uploader.h"
-#include "FileInfo.hpp"
-#pragma comment (lib, "ws2_32.lib")
+#include "FileInfo.h"
+#pragma comment (lib, "ws2_32.lib")  //加载 ws2_32.dll
 
 using namespace std;
 
@@ -66,9 +66,6 @@ int Uploader::connect_server(const std::string &ip, int port)
 	serv_addr.sin_family = AF_INET;  //使用IPv4地址
 	serv_addr.sin_addr.s_addr = inet_addr(ip.c_str());  //具体的IP地址
 
-	//std::wstring ws_ip = Ansi2WChar(ip.c_str(), ip.length());
-	//InetPton(AF_INET, ws_ip.c_str(), &serv_addr.sin_addr.s_addr);
-	
 	serv_addr.sin_port = htons(port);  //端口
 	connect(_sock, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
 }
@@ -88,38 +85,27 @@ int Uploader::upload(const std::string &path, const std::string &filename)
 	set_info_len(info, path, filename);
 
 	// 发送FileInfo
-	send(_sock, (char *) &info, sizeof(FileInfo), 0);
+	send(_sock, (char *)&info, sizeof(FileInfo), 0);
 
 	// 发送文件内容
-	FILE *fp;
-	int len;
 	char *buf = new char[_buf_size];
-	fp = fopen(filename.c_str(), "rb+");
-	if (fp == NULL)
-		return 1;
-
-	while ((len = fread(buf, sizeof(char), _buf_size, fp)) > 0) {
-		send(_sock, buf, len, 0);
-	}
-
-	fclose(fp);
-
-	ifstream file;
-	file.open(filename, ios::in | ios::binary);
+	// 发送文件内容
+	ifstream file(filename, ios::in | ios::binary);
 	if (!file.good())
 		return 1;
-	while ((len = file.read(buf, _buf_size)) > 0)
+	streamsize sz;
+	while ((sz = file.readsome(buf, _buf_size)) > 0)
 	{
-
+		send(_sock, buf, (size_t)sz, 0);
 	}
-
-
+	file.close();
 	delete[] buf;
 	return 0;
+
 }
 
 int Uploader::batch_upload(const std::string &path,
-	const std::vector<const std::string> &filenames)
+	const std::vector<std::string> &filenames)
 {
 	int ret = 0;
 	auto it = filenames.begin();
