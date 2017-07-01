@@ -7,14 +7,31 @@
 * Summary: 与服务器连接，向服务器上传文件
 *******************************************************************************/
 
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include <string>
 #include <vector>
+#include <WinSock2.h>
 
 class Uploader
 {
 public:
 	Uploader();
 	~Uploader();
+
+	/*
+	* Summary: 初始化Uploader，在使用这个类之前必须先初始化，
+	*			初始化成功才能使用
+	* Return: 
+	*		0 表示初始化成功，非0表示不成功
+	*/
+	static int initialize();
+
+	/*
+	* Summary: 停止使用Uploader，在程序退出时调用
+	* Return:
+	*		0 表示操作成功
+	*/
+	static int terminate();
 
 	/*
 	* Summary: 连接服务器
@@ -26,6 +43,11 @@ public:
 	*		otherwise connection failed
 	*/
 	int connect_server(const std::string &ip, int port);
+
+	/*
+	* Summary: 断开与服务器的连接
+	*/
+	void disconnect();
 
 	/*
 	* Summary: 上传一个文件
@@ -47,6 +69,14 @@ public:
 	*		number of files that successfully uploaded
 	*/
 	int batch_upload(const std::string &path, const std::vector<const std::string> &filenames);
+
+private:
+
+	static WSADATA _wsa_data;
+
+	SOCKET _sock;
+
+	int _buf_size;
 };
 
 #endif // !UPLOADER_H

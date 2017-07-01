@@ -28,7 +28,8 @@ typedef struct
 */
 void inline set_info_name(FileInfo &info, std::string filename)
 {
-	strncpy(info.filename, filename.c_str(), filename.length() + 1);
+	memcpy(info.filename, filename.c_str(), filename.length() + 1);
+	// strncpy(info.filename, filename.c_str(), filename.length() + 1);
 }
 
 /*
