@@ -8,7 +8,7 @@
 
 class PlateDao
 {
-	char *gszFile;
+	char *gszFile;  //数据库路径 格式如"D:\\vs-c\\test.db"
 public:
 
 	/*
@@ -77,6 +77,14 @@ public:
 	*		如果查询成功，返回一组符合条件的Plate的指针，失败则返回一个长度为0的向量。
 	*/
 	std::vector<Plate *> findByTime(std::string time);
+
+	/*
+	* Summary: 查询所有数据
+	* 
+	* Return:
+	*		如果查询成功，返回一组符合条件的Plate的指针，失败则返回一个长度为0的向量。
+	*/
+	std::vector<Plate *> findAll();
 };
 
 #endif // !PLATE_DAO_H
