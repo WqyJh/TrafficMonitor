@@ -8,12 +8,13 @@
 
 class PlateDao
 {
+	char *gszFile;
 public:
 
 	/*
 	*实例化PlateDao对象时新建数据库以及table
 	*/
-	PlateDao();
+	PlateDao(char*);
 	~PlateDao();
 
 	/*
