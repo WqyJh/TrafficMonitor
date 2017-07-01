@@ -8,9 +8,9 @@
 *******************************************************************************/
 
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
+#include <WinSock2.h>
 #include <string>
 #include <vector>
-#include <WinSock2.h>
 
 class Uploader
 {
