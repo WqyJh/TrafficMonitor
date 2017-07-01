@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-const char* gszFile = "D:\\Plate.db";
+const char* gszFile = "D:\\PlateForDao.db";
 
 PlateDao::PlateDao()
 {

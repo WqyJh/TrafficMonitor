@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "Plate.h"
+#include "PlateDao.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -12,15 +12,44 @@ namespace TMServerUnitTest
 
 		TEST_METHOD(test_plate)
 		{
-			Plate p("123", 20170630, "D:\\vs-c");
-			Assert::AreEqual(0, p.get_id());
+			remove("D:\\PlateForDao.db");
+			Plate p1("123", 1498824286, "D:\\vs-c");
+			Assert::AreEqual(0, p1.get_id());
+			std::string str1("¶õA 0QV05");
+			p1.set_number(str1);
+			Plate p2("¶õA HZ553", 1498872847, "E:\\c");
+			Plate p3("¶õB HZ553", 1498874814, "E:\\c");
 
-			std::string str1("1234");
-			p.set_number(str1);
-			p.set_id(2);
-			Assert::AreEqual(2, p.get_id());
-			Assert::AreEqual(str1, p.get_number());
-			// TODO: ÔÚ´ËÊäÈë²âÊÔ´úÂë
+			//PlateDao()  save()  remove()
+			PlateDao dao;
+			Assert::AreEqual(dao.save(p1), 0);
+			dao.save(p1);
+			dao.save(p1);
+			dao.save(p2);
+			dao.save(p2);
+			dao.save(p3);
+			Assert::AreEqual(dao.remove(p1), 0);
+
+			//findById
+			Plate *p4 = dao.findById(4);
+			Assert::AreEqual(p4->get_id(), 4);
+			std::string str("¶õA HZ553");
+			Assert::AreEqual(p4->get_number(), str);
+
+			//update()
+			p4->set_time(1498875999);
+			dao.update(*p4);
+			Plate *p5 = dao.findById(4);
+			Assert::AreEqual(p5->get_time(),(long)1498875999);
+
+			//findByNumber()
+			std::vector<Plate *> v1 = dao.findByNumber("¶õA HZ553");
+			Assert::AreEqual((int)v1.size(), 2);
+
+			//findByTime()
+			std::vector<Plate *> v2 = dao.findByTime("2017-07-01");
+			Assert::AreEqual((int)v2.size(), 3);
+
 		}
 
 	};
