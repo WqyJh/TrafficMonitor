@@ -13,6 +13,7 @@ public:
 	Plate();
 	~Plate();
 
+	//Plate 初始化时不赋予_id
 	Plate(std::string, long, std::string);
 	
 	int get_id() const;

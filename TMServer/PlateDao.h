@@ -5,9 +5,14 @@
 #include <vector>
 #include "CppSQLite3.h"
 
+
 class PlateDao
 {
 public:
+
+	/*
+	*实例化PlateDao对象时新建数据库以及table
+	*/
 	PlateDao();
 	~PlateDao();
 
@@ -17,6 +22,8 @@ public:
 	*		plate: 一个Plate实例
 	* Return: 
 	*		0表示成功，非0表示失败
+	* Tips:
+	*       Plate对象的_number _time _path存入数据库   _id为自增主键，数据库自动赋值
 	*/
 	int save(const Plate &plate);
 
@@ -26,6 +33,8 @@ public:
 	*		plate: 一个Plate实例
 	* Return:
 	*		0表示成功，非0表示失败
+	* Tips:
+	*       根据_number _time _path删除
 	*/
 	int remove(const Plate &plate);
 
@@ -35,6 +44,8 @@ public:
 	*		plate: 一个Plate实例
 	* Return:
 	*		0表示成功，非0表示失败
+	* Tips:
+	*       由_id查询到数据，更改_number _time _path
 	*/
 	int update(const Plate &plate);
 
