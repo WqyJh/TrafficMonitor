@@ -3,6 +3,8 @@
 //
 
 #pragma once
+#include "afxcmn.h"
+#include "Uploader.h"
 
 
 // CTMClientDlg ¶Ô»°¿ò
@@ -31,4 +33,13 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+public:
+	int fileNum = 0;
+	std::string  filepath;
+	std::vector<std::string> filename;
+	CListCtrl clientList;
+	afx_msg void OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OpenFile();
+	afx_msg void HelpInformation();
+	afx_msg void OnBnClickedUpload();
 };

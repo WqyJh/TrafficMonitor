@@ -6,6 +6,7 @@
 #include "TMClient.h"
 #include "TMClientDlg.h"
 #include "afxdialogex.h"
+#include "Uploader.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -58,12 +59,17 @@ CTMClientDlg::CTMClientDlg(CWnd* pParent /*=NULL*/)
 void CTMClientDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_LIST1, clientList);
 }
 
 BEGIN_MESSAGE_MAP(CTMClientDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, &CTMClientDlg::OnLvnItemchangedList1)
+	ON_COMMAND(ID_32772, &CTMClientDlg::OpenFile)
+	ON_COMMAND(ID_32771, &CTMClientDlg::HelpInformation)
+	ON_BN_CLICKED(IDC_BUTTON1, &CTMClientDlg::OnBnClickedUpload)
 END_MESSAGE_MAP()
 
 
@@ -99,6 +105,17 @@ BOOL CTMClientDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+	CRect rect;
+	clientList.GetClientRect(&rect);
+	clientList.SetExtendedStyle(clientList.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
+	clientList.InsertColumn(0, _T("文件名"), LVCFMT_CENTER, rect.Width() / 2, 0);
+	clientList.InsertColumn(1, _T("状态"), LVCFMT_CENTER, rect.Width() / 2, 1);
+
+	//CRgn rgntmp;
+	//RECT rc;
+	//GetClientRect(&rc);
+	//rgntmp.CreateRoundRectRgn(rc.left + 3, rc.top + 3, rc.right - rc.left, rc.bottom - rc.top - 3, 6, 6);
+	//SetWindowRgn(rgntmp, TRUE);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -152,3 +169,87 @@ HCURSOR CTMClientDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+void CTMClientDlg::OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
+	// TODO: 在此添加控件通知处理程序代码
+	NMLISTVIEW *pnml = (NMLISTVIEW*)pNMHDR;
+	CString str;
+	if (-1 != pnml->iItem)
+		str = clientList.GetItemText(pnml->iItem, 0);//获取地址
+	CImage image;
+	image.Load(str);
+
+	//以下两个矩形主要作用是，获取对话框上面的Picture Control的width和height，
+	//并设置到图片矩形rectPicture，根据图片矩形rectPicture对图片进行处理，
+	//最后绘制图片到对话框上Picture Control上面
+	CRect rectControl;                        //控件矩形对象
+	CRect rectPicture;                        //图片矩形对象
+
+	int x = image.GetWidth();
+	int y = image.GetHeight();
+	//Picture Control的ID为IDC_IMAGE
+	CWnd  *pWnd = GetDlgItem(IDC_STATIC);
+	pWnd->GetClientRect(rectControl);
+
+
+	CDC *pDc = GetDlgItem(IDC_STATIC)->GetDC();
+	SetStretchBltMode(pDc->m_hDC, STRETCH_HALFTONE);
+
+	rectPicture = CRect(rectControl.TopLeft(), CSize((int)rectControl.Width(), (int)rectControl.Height()));
+
+	((CStatic*)GetDlgItem(IDC_STATIC))->SetBitmap(NULL);
+
+	//以下两种方法都可绘制图片
+	//image.StretchBlt(pDc->m_hDC, rectPicture, SRCCOPY); //将图片绘制到Picture控件表示的矩形区域
+	image.Draw(pDc->m_hDC, rectPicture);                //将图片绘制到Picture控件表示的矩形区域
+
+	image.Destroy();
+	pWnd->ReleaseDC(pDc);
+
+	*pResult = 0;
+}
+
+
+void CTMClientDlg::OpenFile()  // 菜单栏  打开文件  预览 选择
+{
+	CFileDialog filedlg(TRUE, NULL, NULL, OFN_ALLOWMULTISELECT, _T("Picture files(*.bmp;*.jpg;*.jpeg;*.png;*.gif)|*.bmp;*.jpg;*.jpeg;*.png;*.gif|"), NULL);
+	//文件过滤器
+	USES_CONVERSION;//unicode  环境下CString 转换为std：：string
+	if (filedlg.DoModal() == IDOK)//批量选择
+	{
+		POSITION pos;
+		CString path;
+		pos = filedlg.GetStartPosition();
+		while (pos != NULL)
+		{
+			
+		     path =filedlg.GetNextPathName(pos);//获取多个文件路径	
+			clientList.InsertItem(fileNum, path);   //插入文件路径到list control
+			clientList.SetItemText(fileNum, 1, _T("0"));
+			filename.push_back(W2A(path.Mid(path.ReverseFind('\\') + 1)));
+			++fileNum;
+		}
+		filepath =W2A(path.Mid(0,path.ReverseFind('\\')));	
+	}
+
+}
+
+
+void CTMClientDlg::HelpInformation()//点击帮助 --版本信息   显示版本信息
+{
+	CDialog *dlg = new CDialog;
+	dlg->Create(IDD_ABOUTBOX, this);//版本信息
+	dlg->ShowWindow(SW_SHOW);
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+void CTMClientDlg::OnBnClickedUpload()
+{
+	Uploader uploadFile;
+	uploadFile.batch_upload(filepath, filename);
+	// TODO: 在此添加控件通知处理程序代码
+}
