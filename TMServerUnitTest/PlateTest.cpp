@@ -100,8 +100,8 @@ namespace TMServerUnitTest
 			dao.save(p3);
 			std::vector<Plate *> v = dao.findByNumber("¶õA HZ553");
 			Assert::AreEqual((int)v.size(), 2);
-			Plate *p4 = v.front();
-			Assert::AreEqual(p4->get_id(), 1);
+			Plate *p4 = v.back();
+			Assert::AreEqual(p4->get_id(), 2);
 			dao.release();
 		}
 		
