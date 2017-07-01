@@ -111,6 +111,32 @@ namespace TMServerUnitTest
 			std::string got = p4->get_path();
 			const char * path = got.c_str();
 			Assert::AreEqual(path, "E:\\c");
+			Assert::AreEqual(p4->get_time(), (long)1498872847);
+			std::vector<Plate *> v2 = dao.findByTime("2017-07-06");
+			Assert::AreEqual((int)v2.size(), 0);
+		}
+
+		TEST_METHOD(test_findAll)
+		{
+			remove("D:\\PlateForDao.db");
+			Plate p1("¶õA HZ553", 1498824286, "D:\\vs-c");
+			Plate p2("¶õA HZ553", 1498872847, "E:\\c");
+			Plate p3("¶õB HZ553", 1498874814, "E:\\c");
+			PlateDao dao("D:\\PlateForDao.db");
+			dao.save(p1);
+			dao.save(p2);
+			dao.save(p3);
+			std::vector<Plate *> v = dao.findAll();
+			Assert::AreEqual((int)v.size(), 3);
+			Plate *p4 = v.front();
+			std::string got = p4->get_path();
+			const char * path = got.c_str();
+			Assert::AreEqual(path, "D:\\vs-c");
+
+			remove("D:\\PlateForDao.db");
+			PlateDao dao2("D:\\PlateForDao.db");
+			std::vector<Plate *> v1 = dao2.findAll();
+			Assert::AreEqual((int)v1.size(), 0);
 		}
 	};
 }

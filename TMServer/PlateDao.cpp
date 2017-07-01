@@ -156,3 +156,26 @@ std::vector<Plate *> PlateDao::findByTime(std::string time)
 		}
 	return v;
 }
+
+std::vector<Plate *> PlateDao::findAll()
+{
+	int row;
+	std::vector<Plate *> v;
+	CppSQLite3DB db;
+	db.open(gszFile);
+	CppSQLite3Table t = db.getTable("SELECT * FROM Plate");
+	if (t.numFields() == 0)
+		return v;
+	else
+		for (row = 0; row < t.numRows(); ++row)
+		{
+			t.setRow(row);
+			Plate* p = new Plate;
+			p->set_id(atoi(t.fieldValue(0)));
+			p->set_number(t.fieldValue(1));
+			p->set_time(atol(t.fieldValue(2)));
+			p->set_path(t.fieldValue(3));
+			v.push_back(p);
+		}
+	return v;
+}
