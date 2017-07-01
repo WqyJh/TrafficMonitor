@@ -11,16 +11,34 @@
 *.userprefs
 
 # Build results
-[Dd]ebug/
+#[Dd]ebug/
 [Dd]ebugPublic/
-[Rr]elease/
+#[Rr]elease/
 [Rr]eleases/
+[Tt]emp/
 x64/
 x86/
 bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+!build_server/[Dd]ebug/model/
+!build_server/[Dd]ebug/resources/
+!build_server/[Dd]ebug/opencv_ffmpeg320_64.dll
+!build_server/[Dd]ebug/opencv_world320d.dll
+!build_server/[Dd]ebug/plate_recognize.jpg
+build_server/[Dd]ebug/TMServerUnitTest.*
+build_server/[Dd]ebug/TMServer.*
+build_server/[Dd]ebug/result.jpg
+build_server/[Rr]elease/TMServerUnitTest.*
+build_server/[Rr]elease/TMServer.*
+build_server/[Rr]elease/result.jpg
+build_server_test/[Dd]ebug/
+build_server_test/[Rr]elease/
+build_client/[Dd]ebug/
+build_client/[Rr]elease/
+build_client_test/[Dd]ebug/
+build_client_test/[Rr]elease/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -53,6 +71,7 @@ artifacts/
 *.obj
 *.pch
 *.pdb
+*.idb
 *.pgc
 *.pgd
 *.rsp
@@ -63,12 +82,14 @@ artifacts/
 *.tmp
 *.tmp_proj
 *.log
-*.vspscc
 *.vssscc
+*.vspscc
 .builds
 *.pidb
 *.svclog
 *.scc
+*.tlog/
+*.exe
 
 # Chutzpah Test files
 _Chutzpah*

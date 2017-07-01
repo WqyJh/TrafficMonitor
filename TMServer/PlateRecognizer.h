@@ -14,7 +14,8 @@ public:
 	* Parameters:
 	*		filename: file's name with full path
 	* Return:
-	*		a string represents the plate number
+	*		a string represents the plate number,
+	*		or empty string if failed to recognize it
 	*/
 	std::string recognize(const std::string &filename);
 };
