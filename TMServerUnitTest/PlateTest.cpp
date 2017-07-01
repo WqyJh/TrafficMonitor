@@ -45,11 +45,17 @@ namespace TMServerUnitTest
 			//findByNumber()
 			std::vector<Plate *> v1 = dao.findByNumber("¶õA HZ553");
 			Assert::AreEqual((int)v1.size(), 2);
+			Plate *p6 = v1.front();
+			Assert::AreEqual(p6->get_id(), 4);
 
 			//findByTime()
-			std::vector<Plate *> v2 = dao.findByTime("2017-07-01");
+			PlateDao dao2;
+			std::vector<Plate *> v2 = dao2.findByTime("2017-07-01");
 			Assert::AreEqual((int)v2.size(), 3);
-
+			Plate *p7 = v2.front();
+			std::string got = p7->get_path();
+			const char * path = got.c_str();
+			Assert::AreEqual(path, "E:\\c");
 		}
 
 	};
