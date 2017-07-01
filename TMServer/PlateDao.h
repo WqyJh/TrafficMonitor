@@ -12,7 +12,7 @@ private:
 	char *gszFile;  //数据库路径 格式如"D:\\vs-c\\test.db"
 	CppSQLite3DB db;
 public:
-	void init();
+	void init(); //打开数据库 创建table
 	void release();
 	/*
 	*实例化PlateDao对象时新建数据库以及table
