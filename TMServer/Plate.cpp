@@ -60,3 +60,20 @@ void Plate::set_path(std::string path)
 {
 	_path = path;
 }
+
+bool Plate::operator==(const Plate &p)const
+{
+	return (_id == p._id) && (_number == p._number) && (_time == p._time) && (_path == p._path);
+}
+
+Plate &Plate::operator=(const Plate &p)
+{
+	if (this != &p)
+	{
+		_id = p._id;
+		_number = p._number;
+		_time = p._time;
+		_path = p._path;
+	}
+	return *this;
+}

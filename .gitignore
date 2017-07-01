@@ -39,6 +39,7 @@ build_client/[Dd]ebug/
 build_client/[Rr]elease/
 build_client_test/[Dd]ebug/
 build_client_test/[Rr]elease/
+*.db
 
 # Visual Studio 2015 cache/options directory
 .vs/

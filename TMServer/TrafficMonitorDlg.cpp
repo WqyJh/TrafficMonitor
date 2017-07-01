@@ -305,7 +305,7 @@ void CTrafficMonitorDlg::OnBnClickedFind()
 void CTrafficMonitorDlg::OnBnClickedShowAll()
 {
 	CString ptime;
-	plates.swap(plateDao.FindAll());
+	plates.swap(plateDao.findAll());
 	for (int i = 0; i < plates.size(); ++i)
 	{
 		ptime.Format(_T("%ld"), plates[i]->get_time());

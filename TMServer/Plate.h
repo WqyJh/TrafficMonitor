@@ -28,6 +28,8 @@ public:
 	std::string get_path() const;
 	void set_path(std::string);
 
+	bool operator==(const Plate &p)const;
+	Plate &operator=(const Plate &p);
 private:
 
 	/*
