@@ -159,6 +159,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="PlateRecognizerTest.cpp" />
+    <ClCompile Include="PlateTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TMServer\TrafficMonitor.vcxproj">

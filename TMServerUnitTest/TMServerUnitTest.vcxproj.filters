@@ -18,5 +18,8 @@
     <ClCompile Include="PlateRecognizerTest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="PlateTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
