@@ -3,10 +3,11 @@
 #include <iostream>
 
 
-const char* gszFile = "D:\\PlateForDao.db";
+char* gszFile = "D:\\PlateForDao.db";
 
-PlateDao::PlateDao()
+PlateDao::PlateDao(char* path)
 {
+	gszFile = path;
 	CppSQLite3DB db;
 	db.open(gszFile);
 	if (!db.tableExists("Plate"))

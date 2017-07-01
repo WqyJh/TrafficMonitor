@@ -20,14 +20,14 @@ namespace TMServerUnitTest
 
 		TEST_METHOD(test_PlateDao)
 		{
-			PlateDao dao;
+			PlateDao dao("D:\\PlateForDao.db");
 		}
 
 		TEST_METHOD(test_save)
 		{
 			remove("D:\\PlateForDao.db");
 			Plate p1("123", 1498824286, "D:\\vs-c");
-			PlateDao dao;
+			PlateDao dao("D:\\PlateForDao.db");
 			Assert::AreEqual(dao.save(p1), 0);
 		}
 
@@ -37,7 +37,7 @@ namespace TMServerUnitTest
 			Plate p1("123", 1498824286, "D:\\vs-c");
 			Plate p2("空A HZ553", 1498872847, "E:\\c");
 			Plate p3("空B HZ553", 1498874814, "E:\\c");
-			PlateDao dao;
+			PlateDao dao("D:\\PlateForDao.db");
 			dao.save(p1);
 			dao.save(p2);
 			dao.save(p2);
@@ -46,13 +46,13 @@ namespace TMServerUnitTest
 			Assert::AreEqual(dao.remove(*p4), 0);
 		}
 
-		/*TEST_METHOD(test_update)
+		TEST_METHOD(test_update)
 		{
 			remove("D:\\PlateForDao.db");
 			Plate p1("123", 1498824286, "D:\\vs-c");
 			Plate p2("空A HZ553", 1498872847, "E:\\c");
 			Plate p3("空B HZ553", 1498874814, "E:\\c");
-			PlateDao dao;
+			PlateDao dao("D:\\PlateForDao.db");
 			dao.save(p1);
 			dao.save(p2);
 			dao.save(p3);
@@ -69,7 +69,7 @@ namespace TMServerUnitTest
 			Plate p1("123", 1498824286, "D:\\vs-c");
 			Plate p2("空A HZ553", 1498872847, "E:\\c");
 			Plate p3("空B HZ553", 1498874814, "E:\\c");
-			PlateDao dao;
+			PlateDao dao("D:\\PlateForDao.db");
 			dao.save(p1);
 			dao.save(p2);
 			dao.save(p3);
@@ -85,7 +85,7 @@ namespace TMServerUnitTest
 			Plate p1("空A HZ553", 1498824286, "D:\\vs-c");
 			Plate p2("空A HZ553", 1498872847, "E:\\c");
 			Plate p3("空B HZ553", 1498874814, "E:\\c");
-			PlateDao dao;
+			PlateDao dao("D:\\PlateForDao.db");
 			dao.save(p1);
 			dao.save(p2);
 			dao.save(p3);
@@ -101,7 +101,7 @@ namespace TMServerUnitTest
 			Plate p1("空A HZ553", 1498824286, "D:\\vs-c");
 			Plate p2("空A HZ553", 1498872847, "E:\\c");
 			Plate p3("空B HZ553", 1498874814, "E:\\c");
-			PlateDao dao;
+			PlateDao dao("D:\\PlateForDao.db");
 			dao.save(p1);
 			dao.save(p2);
 			dao.save(p3);
@@ -111,6 +111,6 @@ namespace TMServerUnitTest
 			std::string got = p4->get_path();
 			const char * path = got.c_str();
 			Assert::AreEqual(path, "E:\\c");
-		}*/
+		}
 	};
 }
