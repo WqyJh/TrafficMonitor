@@ -67,7 +67,8 @@ int Uploader::connect_server(const std::string &ip, int port)
 	serv_addr.sin_addr.s_addr = inet_addr(ip.c_str());  //具体的IP地址
 
 	serv_addr.sin_port = htons(port);  //端口
-	connect(_sock, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
+	int ret = connect(_sock, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
+	return ret != -1;
 }
 
 void Uploader::disconnect()
@@ -96,7 +97,7 @@ int Uploader::upload(const std::string &path, const std::string &filename)
 	streamsize sz;
 	while ((sz = file.readsome(buf, _buf_size)) > 0)
 	{
-		send(_sock, buf, (size_t)sz, 0);
+		send(_sock, buf, (int)sz, 0);
 	}
 	file.close();
 	delete[] buf;
