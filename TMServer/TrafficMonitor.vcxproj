@@ -201,6 +201,7 @@
   <ItemGroup>
     <ClInclude Include="CppSQLite3.h" />
     <ClInclude Include="FileManager.h" />
+    <ClInclude Include="ImageProcessor.h" />
     <ClInclude Include="Plate.h" />
     <ClInclude Include="PlateDao.h" />
     <ClInclude Include="PlateRecognizer.h" />
@@ -217,6 +218,7 @@
     <ClCompile Include="..\TMClient\FileInfo.cpp" />
     <ClCompile Include="CppSQLite3.cpp" />
     <ClCompile Include="FileManager.cpp" />
+    <ClCompile Include="ImageProcessor.cpp" />
     <ClCompile Include="Plate.cpp" />
     <ClCompile Include="PlateDao.cpp" />
     <ClCompile Include="PlateRecognizer.cpp" />
