@@ -21,12 +21,12 @@ class CAboutDlg : public CDialogEx
 public:
 	CAboutDlg();
 
-// 对话框数据
+	// 对话框数据
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_ABOUTBOX };
 #endif
 
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
 // 实现
@@ -232,14 +232,14 @@ void CTMClientDlg::OpenFile()  // 菜单栏  打开文件  预览 选择
 		pos = filedlg.GetStartPosition();
 		while (pos != NULL)
 		{
-			
-		     path =filedlg.GetNextPathName(pos);//获取多个文件路径	
+
+			path = filedlg.GetNextPathName(pos);//获取多个文件路径	
 			clientList.InsertItem(fileNum, path);   //插入文件路径到list control
 			clientList.SetItemText(fileNum, 1, _T("待上传"));
 			filename.push_back(W2A(path.Mid(path.ReverseFind('\\') + 1)));
 			++fileNum;
 		}
-		filepath =W2A(path.Mid(0,path.ReverseFind('\\')));	
+		filepath = W2A(path.Mid(0, path.ReverseFind('\\')));
 	}
 
 }
@@ -268,20 +268,22 @@ void CTMClientDlg::OnBnClickedUpload()
 	{
 		// 连接成功，可以上传
 
-		for (int i = 0; i < filename.size(); ++i)
+		for (int i = upNum; i < filename.size(); ++i)
 		{
 			if (uploadFile.upload(filepath, filename.at(i)) == 0)
 			{
 				clientList.SetItemText(i, 1, _T("上传成功"));
 			}
 		}
-	} 
+		uploadFile.disconnect();
+		upNum = filename.size() ;
+	}
 	else
 	{
 		// 连接失败，提示
 		MessageBox(_T("服务器连接失败，无法上传"));
 		return;
 	}
-	
+
 	// TODO: 在此添加控件通知处理程序代码
 }

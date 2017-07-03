@@ -36,6 +36,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	int fileNum = 0;
+	int upNum;//记录已上传文件数
 	std::string  filepath;
 	std::vector<std::string> filename;
 	CListCtrl clientList;

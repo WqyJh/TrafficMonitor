@@ -20,12 +20,12 @@ class CAboutDlg : public CDialogEx
 public:
 	CAboutDlg();
 
-// 对话框数据
+	// 对话框数据
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_ABOUTBOX };
 #endif
 
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
 // 实现
@@ -75,6 +75,7 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON4, &CTrafficMonitorDlg::OnBnClickedUpdate)
 	ON_BN_CLICKED(IDC_BUTTON1, &CTrafficMonitorDlg::OnBnClickedFind)
 	ON_BN_CLICKED(IDC_BUTTON5, &CTrafficMonitorDlg::OnBnClickedShowAll)
+	ON_STN_CLICKED(IDC_PICTURE, &CTrafficMonitorDlg::OnStnClickedPicture)
 END_MESSAGE_MAP()
 
 
@@ -112,7 +113,7 @@ BOOL CTrafficMonitorDlg::OnInitDialog()
 	// TODO: 在此添加额外的初始化代码
 	plateDao.set_gszFile("database.db");
 	plateDao.init();
-	
+
 	server = new Server("127.0.0.1", 50084);
 	int init_success = server->init();
 	if (init_success == 0)
@@ -126,23 +127,16 @@ BOOL CTrafficMonitorDlg::OnInitDialog()
 		MessageBox(_T("服务器初始化失败！"));
 		return FALSE;
 	}
-	
+
 	CRect rect;
 	serveList.GetClientRect(&rect);
 	serveList.SetExtendedStyle(serveList.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
-	
-	serveList.InsertColumn(0, _T("车牌号"), LVCFMT_CENTER, rect.Width() / 3, 0);
-	serveList.InsertColumn(1, _T("上传日期"), LVCFMT_CENTER, rect.Width() /3 , 1);
-	serveList.InsertColumn(2, _T("图片地址"), LVCFMT_CENTER, rect.Width() / 3, 2);
-	CString ptime;
-	int i = 0;
-	for (auto iplate = plates.cbegin(); iplate != plates.cend(); ++iplate, ++i)//依次显示出查询到的内容
-	{
-		ptime.Format(_T("%ld"), (*iplate)->get_time());
-		serveList.InsertItem(i, (CString)(*iplate)->get_number().c_str());
-		serveList.SetItemText(i, 1, ptime);
-		serveList.SetItemText(i, 2, (CString)(*iplate)->get_path().c_str());
-	}
+
+	serveList.InsertColumn(0, _T("车牌号"), LVCFMT_CENTER, rect.Width() / 4, 0);
+	serveList.InsertColumn(1, _T("上传日期"), LVCFMT_CENTER, rect.Width() / 4, 1);
+	serveList.InsertColumn(2, _T("图片地址"), LVCFMT_CENTER, rect.Width() / 2, 2);
+	//显示出查询到的内容
+	showData(plates);
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -207,10 +201,42 @@ void CTrafficMonitorDlg::OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult)
 	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
 	// TODO: 在此添加控件通知处理程序代码
 	NMLISTVIEW *pnml = (NMLISTVIEW*)pNMHDR;
-	
+	CString str;
 	if (-1 != pnml->iItem)
 	{
 		NowID = pnml->iItem;
+		str = serveList.GetItemText(pnml->iItem, 2);//获取地址
+		CImage image;
+		image.Load(str);
+		//以下两个矩形主要作用是，获取对话框上面的Picture Control的width和height，
+		//并设置到图片矩形rectPicture，根据图片矩形rectPicture对图片进行处理，
+		//最后绘制图片到对话框上Picture Control上面
+		CRect rectControl;                        //控件矩形对象
+		CRect rectPicture;                        //图片矩形对象
+
+		int x = image.GetWidth();
+		int y = image.GetHeight();
+		//Picture Control的ID为IDC_IMAGE
+		CWnd  *pWnd = GetDlgItem(IDC_PICTURE);
+		pWnd->GetClientRect(rectControl);
+
+
+		CDC *pDc = GetDlgItem(IDC_PICTURE)->GetDC();
+		SetStretchBltMode(pDc->m_hDC, STRETCH_HALFTONE);
+
+		rectPicture = CRect(rectControl.TopLeft(), CSize((int)rectControl.Width(), (int)rectControl.Height()));
+
+		((CStatic*)GetDlgItem(IDC_PICTURE))->SetBitmap(NULL);
+
+		//以下两种方法都可绘制图片
+		//image.StretchBlt(pDc->m_hDC, rectPicture, SRCCOPY); //将图片绘制到Picture控件表示的矩形区域
+		image.Draw(pDc->m_hDC, rectPicture);                //将图片绘制到Picture控件表示的矩形区域
+
+		image.Destroy();
+		pWnd->ReleaseDC(pDc);
+
+
+		
 		this->SetDlgItemTextW(IDC_EDIT2, serveList.GetItemText(pnml->iItem, 0));
 		this->SetDlgItemTextW(IDC_EDIT3, serveList.GetItemText(pnml->iItem, 1));
 		this->SetDlgItemTextW(IDC_EDIT4, serveList.GetItemText(pnml->iItem, 2));
@@ -223,7 +249,7 @@ void CTrafficMonitorDlg::OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult)
 
 void CTrafficMonitorDlg::OnBnClickedDelete()
 {
-	if (NowID ==-1)
+	if (NowID == -1)
 	{
 		MessageBox(_T("请选择要删除的记录"));
 		return;
@@ -239,40 +265,48 @@ void CTrafficMonitorDlg::OnBnClickedDelete()
 	//删除容器里的数据
 	for (std::vector<Plate*>::iterator iter = plates.begin(); iter != plates.end();)
 	{
-		if (**iter==plate)
+		if (**iter == plate)
 			iter = plates.erase(iter);
 		else
 			iter++;
 	}
-	this->SetDlgItemTextW(IDC_EDIT2,NULL);
+	this->SetDlgItemTextW(IDC_EDIT2, NULL);
 	this->SetDlgItemTextW(IDC_EDIT3, NULL);
-	this->SetDlgItemTextW(IDC_EDIT4,NULL);
-	NowID=-1;
-	
-	
+	this->SetDlgItemTextW(IDC_EDIT4, NULL);
+	NowID = -1;
+
+
 	// TODO: 在此添加控件通知处理程序代码
 }
 
 void CTrafficMonitorDlg::OnBnClickedUpdate()//更新某条信息
 {
 	USES_CONVERSION;//Unicode下字符转换说明，下同
+	if (NowID == -1)
+	{
+		MessageBox(_T("请选择要修改的记录"));
+		return;
+	}
 	CString carNum, time, path;//保存输入的车牌信息
 	Edit_carNum.GetWindowText(carNum);
 	Edit_time.GetWindowText(time);
 	Edit_path.GetWindowText(path);
 	plate.set_number(W2A(carNum));
-	plate.set_time(_ttol(time));
-	plate.set_path(W2A(path));
-	if (carNum.GetLength() == 0 || time.GetLength() == 0 || path.GetLength() == 0) 
+	/*plate.set_time(_ttol(time));
+	plate.set_path(W2A(path));*/
+	if (carNum.GetLength() == 0 || time.GetLength() == 0 || path.GetLength() == 0)
 	{
 		MessageBox(_T("修改有误"));
 		return;
 	}
-	plateDao.update(plate);//更新数据库内容
-
+	if (plateDao.update(plate) != 0)//更新数据库内容
+	{
+		MessageBox(_T("修改失败"));
+		return;
+	}
 	////将修改后的车牌信息显示到列表中
 	*plates[NowID] = plate;
-	serveList.SetItemText(NowID, 0,carNum);
+	serveList.SetItemText(NowID, 0, carNum);
 	serveList.SetItemText(NowID, 1, time);
 	serveList.SetItemText(NowID, 2, path);
 	NowID = -1;
@@ -296,32 +330,62 @@ void CTrafficMonitorDlg::OnBnClickedFind()
 		}
 	}
 	serveList.DeleteAllItems();//查到了，先清空所有列表项
-	CString ptime;
-	int i = 0;
-	for (auto iplate = plates.cbegin(); iplate != plates.cend(); ++iplate,++i)//依次显示出查询到的内容
-	{
-		ptime.Format(_T("%ld"), (*iplate)->get_time());
-		serveList.InsertItem(i,(CString)(*iplate)->get_number().c_str());
-		serveList.SetItemText(i,1,ptime);
-		serveList.SetItemText(i,2, (CString)(*iplate)->get_path().c_str());
-	}
+	showData(plates);
+	//CString ptime;
+	//int i = 0;
+	//for (auto iplate = plates.cbegin(); iplate != plates.cend(); ++iplate, ++i)//依次显示出查询到的内容
+	//{
+	//	ptime.Format(_T("%ld"), (*iplate)->get_time());
+	//	serveList.InsertItem(i, (CString)(*iplate)->get_number().c_str());
+	//	serveList.SetItemText(i, 1, ptime);
+	//	serveList.SetItemText(i, 2, (CString)(*iplate)->get_path().c_str());
+	//}
 	// TODO: 在此添加控件通知处理程序代码
 }
 
 
 void CTrafficMonitorDlg::OnBnClickedShowAll()
 {
-	CString ptime;
+	serveList.DeleteAllItems();
+	for (int i = 0; i < plates.size(); i++)
+	{
+		delete plates[i];
+		plates[i] = NULL;
+	}
+	plates.clear();
 	plates.swap(plateDao.findAll());
-	for (int i = 0; i < plates.size(); ++i)
+	showData(plates);
+	/*for (int i = 0; i < plates.size(); ++i)
 	{
 		ptime.Format(_T("%ld"), plates[i]->get_time());
-		serveList.InsertItem(i,(CString)plates[i]->get_number().c_str());
-		serveList.SetItemText(i, 1,ptime);
+		serveList.InsertItem(i, (CString)plates[i]->get_number().c_str());
+		serveList.SetItemText(i, 1, ptime);
 		serveList.SetItemText(i, 2, (CString)plates[i]->get_path().c_str());
-	}
+	}*/
 
 	// TODO: 在此添加控件通知处理程序代码
 }
 
 
+void CTrafficMonitorDlg::showData(std::vector<Plate*> &plates)
+{
+	CString ptime;
+	int i = 0;
+	time_t time;
+	struct tm* lt = NULL;
+	for (auto iplate = plates.cbegin(); iplate != plates.cend(); ++iplate, ++i)//依次显示出查询到的内容
+	{
+		time = (*iplate)->get_time();
+		lt = localtime(&time);
+		ptime.Format(_T("%d年%d月%d日 %d时%d分"), lt->tm_year + 1900, lt->tm_mon + 1, lt->tm_mday,
+			lt->tm_hour , lt->tm_min + 1);
+		serveList.InsertItem(i, (CString)(*iplate)->get_number().c_str());
+		serveList.SetItemText(i, 1, ptime);
+		serveList.SetItemText(i, 2, (CString)(*iplate)->get_path().c_str());
+	}
+}
+
+void CTrafficMonitorDlg::OnStnClickedPicture()
+{
+	
+}

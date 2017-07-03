@@ -41,7 +41,6 @@ public:
 	PlateDao plateDao;
 	CListCtrl serveList;
 	int NowID=-1;//选中行的标识符
-	
 	std::vector<Plate *> plates;//存放显示出来的所有车牌号信息
 	Server *server;
 	afx_msg void OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult);
@@ -49,8 +48,10 @@ public:
 	afx_msg void OnBnClickedUpdate();
 	afx_msg void OnBnClickedFind();
 	afx_msg void OnBnClickedShowAll();
+	afx_msg void showData(std::vector<Plate*> &plates);
 	CEdit Edit_carNum;//车牌号
 	CEdit Edit_time;//上传时间
 	CEdit Edit_path;//上传路径
 	CEdit edit_find;
+	afx_msg void OnStnClickedPicture();
 };
