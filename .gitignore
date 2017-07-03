@@ -30,9 +30,11 @@ bld/
 build_server/[Dd]ebug/TMServerUnitTest.*
 build_server/[Dd]ebug/TMServer.*
 build_server/[Dd]ebug/result.jpg
+build_server/[Dd]ebug/images/
 build_server/[Rr]elease/TMServerUnitTest.*
 build_server/[Rr]elease/TMServer.*
 build_server/[Rr]elease/result.jpg
+build_server/[Rr]elease/images/
 build_server_test/[Dd]ebug/
 build_server_test/[Rr]elease/
 build_client/[Dd]ebug/

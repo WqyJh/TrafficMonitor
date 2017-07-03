@@ -10,7 +10,7 @@
 #include "..\TMClient\FileInfo.h"
 #pragma comment (lib, "ws2_32.lib")  //加载 ws2_32.dll
 
-std::string Server::get_file_name(std::string filename)
+std::string Server::add_post_fix(std::string filename)
 {
 	std::string postfix = get_postfix(4);
 	unsigned long index = filename.find_last_of('.');
@@ -54,6 +54,8 @@ void Server::stop()
 	}
 
 	WSACleanup();
+
+	_img_processor.stop();
 }
 
 Server::Server(std::string ip, int port)
@@ -112,6 +114,8 @@ int Server::serve()
 		}
 		printf("server thread ended\n");
 	});
+
+	_img_processor.start();
 	return 0;
 }
 
@@ -137,7 +141,7 @@ int Server::accept_file(int clnt_sock)
 	{
 		printf("Receiving %s  length = %d\n", info.filename, info.file_len);
 		// 新建一个文件，准备写入数据
-		std::string filename = get_full_name(get_raw_path(), info.filename);
+		std::string filename = get_full_name(get_raw_path(), add_post_fix(std::string(info.filename)).c_str());
 		std::ofstream file;
 		file.open(filename, std::ios::out | std::ios::trunc | std::ios::binary);
 		while (total < info.file_len) {
@@ -155,6 +159,8 @@ int Server::accept_file(int clnt_sock)
 		putchar('\n');
 		file.flush();
 		file.close();
+		// 接收文件成功，提交给ImageProcessor
+		_img_processor.put(filename);
 	}
 	else
 	{

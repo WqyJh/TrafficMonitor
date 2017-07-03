@@ -27,8 +27,8 @@ void ImageProcessor::start()
 	set_running(true);
 	_thread = new thread([this]() {
 		bool running;
-		string s;
-		string res;
+		string s_file;
+		string plate_number;
 		while (1)
 		{
 			// 检查是否正在运行
@@ -43,7 +43,7 @@ void ImageProcessor::start()
 			_queue_mutex.lock();
 			if (!_msgqueue.empty())
 			{
-				s = _msgqueue.front();
+				s_file = _msgqueue.front();
 				_msgqueue.pop();
 				_queue_mutex.unlock();
 			} 
@@ -55,14 +55,13 @@ void ImageProcessor::start()
 				continue;
 			}
 			
-			if (s.empty())
+			if (s_file.empty())
 				continue;
-
-			res = _recognizer.recognize(s);
-			if (res.length() > 0)
+			plate_number = _recognizer.recognize(s_file);
+			if (plate_number.length() > 0)
 			{
 				//移动到 recognized
-				move_to_path(res.c_str(), get_recognized_path());
+				move_to_path(s_file.c_str(), get_recognized_path());
 
 				// todo: 保存数据
 
@@ -70,7 +69,7 @@ void ImageProcessor::start()
 			else
 			{
 				// 移动到 unrecognized
-				move_to_path(res.c_str(), get_unrecognized_path());
+				move_to_path(s_file.c_str(), get_unrecognized_path());
 			}
 		}
 	});
