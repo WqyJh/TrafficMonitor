@@ -31,34 +31,17 @@ int Uploader::terminate()
 	return WSACleanup();
 }
 
-static wstring Ansi2WChar(const char* pszSrc, int nLen)
-{
-	int nSize = MultiByteToWideChar(CP_ACP, 0, pszSrc, nLen, 0, 0);
-	if (nSize <= 0) return NULL;
-
-	wchar_t *pwszDst = new wchar_t[nSize + 1];
-	if (NULL == pwszDst) return NULL;
-
-	MultiByteToWideChar(CP_ACP, 0, pszSrc, nLen, pwszDst, nSize);
-	pwszDst[nSize] = 0;
-
-	if (pwszDst[0] == 0xFEFF)                    // skip Oxfeff  
-		for (int i = 0; i < nSize; i++)
-			pwszDst[i] = pwszDst[i + 1];
-
-	wstring wcharString(pwszDst);
-	delete pwszDst;
-
-	return wcharString;
-}
-
 int Uploader::connect_server(const std::string &ip, int port)
 {
 	//创建套接字
 	_sock = socket(AF_INET, SOCK_STREAM, 0);
 
 	if (_sock == INVALID_SOCKET)
+	{
+		fprintf(stderr, "Failed to create socket\n");
 		return 1;
+	}
+	printf("Succeed to create server\n");
 
 	//向服务器（特定的IP和端口）发起请求
 	struct sockaddr_in serv_addr;
@@ -68,7 +51,13 @@ int Uploader::connect_server(const std::string &ip, int port)
 
 	serv_addr.sin_port = htons(port);  //端口
 	int ret = connect(_sock, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
-	return ret != -1;
+	if (ret != 0)
+	{
+		fprintf(stderr, "Failed to connect to server\n");
+		ret = 1;
+	}
+	printf("Connect to server\n");
+	return ret;
 }
 
 void Uploader::disconnect()
@@ -78,31 +67,51 @@ void Uploader::disconnect()
 
 int Uploader::upload(const std::string &path, const std::string &filename)
 {
+
 	if (_sock <= 0)
 		return 1;
 
+	int ret = 0;
+	int length;
 	FileInfo info;
 	set_info_name(info, filename);
 	set_info_len(info, path, filename);
 
 	// 发送FileInfo
-	send(_sock, (char *)&info, sizeof(FileInfo), 0);
-
-	// 发送文件内容
-	char *buf = new char[_buf_size];
-	// 发送文件内容
-	ifstream file(filename, ios::in | ios::binary);
-	if (!file.good())
-		return 1;
-	streamsize sz;
-	while ((sz = file.readsome(buf, _buf_size)) > 0)
+	length = send(_sock, (char *)&info, sizeof(FileInfo), 0);
+	printf("Sending %s\n", filename.c_str());
+	if (length == sizeof(FileInfo))
 	{
-		send(_sock, buf, (int)sz, 0);
+		// 发送文件内容
+		char *buf = new char[_buf_size];
+		// 发送文件内容
+		ifstream file(filename, ios::in | ios::binary);
+		if (!file.eof())
+		{
+			
+			streamsize sz;
+			do
+			{
+				file.read(buf, _buf_size);
+				sz = file.gcount();
+				printf("send %d\n", (int)sz);
+				send(_sock, buf, (int)sz, 0);
+			} while (!file.eof());
+			file.close();
+		}
+		else 
+		{
+			fprintf(stderr, "Failed to open file %s\n", filename.c_str());
+			ret = 1;
+		}
+		delete[] buf;
+	} 
+	else
+	{
+		fprintf(stderr, "Failed to send filename\n");
+		ret = 1;
 	}
-	file.close();
-	delete[] buf;
-	return 0;
-
+	return ret;
 }
 
 int Uploader::batch_upload(const std::string &path,
