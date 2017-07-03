@@ -24,7 +24,7 @@ typedef struct
 *		info: 文件信息对象
 *		filename: 文件名
 */
-extern void inline set_info_name(FileInfo &info, std::string filename);
+extern void inline set_info_name(FileInfo &info, const std::string &filename);
 
 /*
 * Summary: 读取文件长度，保存到 FileInfo 对象中
@@ -32,6 +32,6 @@ extern void inline set_info_name(FileInfo &info, std::string filename);
 *		info: 文件信息对象
 *		path: 文件所在路径
 */
-extern void set_info_len(FileInfo &info, std::string path, std::string filename);
+extern void set_info_len(FileInfo &info, const std::string &path, const std::string &filename);
 
 #endif // FILEINFO_H

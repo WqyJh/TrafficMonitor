@@ -6,7 +6,8 @@
 #include "TMClient.h"
 #include "TMClientDlg.h"
 #include "afxdialogex.h"
-#include "Uploader.h"
+#include <stdio.h>
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -105,6 +106,7 @@ BOOL CTMClientDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+	uploadFile.initialize();
 	CRect rect;
 	clientList.GetClientRect(&rect);
 	clientList.SetExtendedStyle(clientList.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
@@ -118,6 +120,11 @@ BOOL CTMClientDlg::OnInitDialog()
 	//SetWindowRgn(rgntmp, TRUE);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
+}
+
+void CTMClientDlg::OnDestroy()
+{
+	uploadFile.terminate();
 }
 
 void CTMClientDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -249,12 +256,32 @@ void CTMClientDlg::HelpInformation()//点击帮助 --版本信息   显示版本
 
 void CTMClientDlg::OnBnClickedUpload()
 {
-	Uploader uploadFile;
-	int i = 0;
-	int num = uploadFile.batch_upload(filepath, filename);
-	for (; i <num; ++i)
+	char ip[16];
+	int port;
+	wchar_t buf[256];
+	_wgetcwd(buf, 128);
+	FILE *config = fopen("config.txt", "r");
+	fscanf(config, "ip=%s\n", ip);
+	fscanf(config, "port=%d", &port);
+	int ret = uploadFile.connect_server(ip, port);
+	if (ret == 0)
 	{
-		clientList.SetItemText(i, 1, _T("上传成功"));
+		// 连接成功，可以上传
+
+		for (int i = 0; i < filename.size(); ++i)
+		{
+			if (uploadFile.upload(filepath, filename.at(i)) == 0)
+			{
+				clientList.SetItemText(i, 1, _T("上传成功"));
+			}
+		}
+	} 
+	else
+	{
+		// 连接失败，提示
+		MessageBox(_T("服务器连接失败，无法上传"));
+		return;
 	}
+	
 	// TODO: 在此添加控件通知处理程序代码
 }

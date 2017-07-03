@@ -29,6 +29,7 @@ protected:
 
 	// 生成的消息映射函数
 	virtual BOOL OnInitDialog();
+	virtual void OnDestroy();
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
@@ -38,6 +39,7 @@ public:
 	std::string  filepath;
 	std::vector<std::string> filename;
 	CListCtrl clientList;
+	Uploader uploadFile;
 	afx_msg void OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OpenFile();
 	afx_msg void HelpInformation();

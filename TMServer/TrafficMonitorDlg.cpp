@@ -6,6 +6,7 @@
 #include "TrafficMonitor.h"
 #include "TrafficMonitorDlg.h"
 #include "afxdialogex.h"
+#include <stdio.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -111,7 +112,21 @@ BOOL CTrafficMonitorDlg::OnInitDialog()
 	// TODO: 在此添加额外的初始化代码
 
 	plateDao.init();
-
+	
+	server = new Server("127.0.0.1", 50084);
+	int init_success = server->init();
+	if (init_success == 0)
+	{
+		// 服务器初始化成功，开始服务
+		server->serve();
+	}
+	else
+	{
+		// 服务器初始化失败
+		MessageBox(_T("服务器初始化失败！"));
+		return FALSE;
+	}
+	
 	CRect rect;
 	serveList.GetClientRect(&rect);
 	serveList.SetExtendedStyle(serveList.GetExtendedStyle() | LVS_EX_FULLROWSELECT);

@@ -7,6 +7,7 @@
 #include "Plate.h"
 #include "PlateDao.h"
 #include "afxwin.h"
+#include "Server.h"
 
 
 // CTrafficMonitorDlg 对话框
@@ -40,7 +41,9 @@ public:
 	PlateDao plateDao;
 	CListCtrl serveList;
 	int NowID=-1;//选中行的标识符
+	
 	std::vector<Plate *> plates;//存放显示出来的所有车牌号信息
+	Server *server;
 	afx_msg void OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnBnClickedDelete();
 	afx_msg void OnBnClickedUpdate();
