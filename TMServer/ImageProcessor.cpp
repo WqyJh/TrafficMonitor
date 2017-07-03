@@ -5,8 +5,9 @@
 using namespace std;
 
 ImageProcessor::ImageProcessor()
-	:_timeval(5), _running(false)
+	:_timeval(5), _running(false), _db_name("database.db")
 {
+	_dao.set_gszFile(const_cast<char *>(_db_name.c_str()));
 }
 
 
@@ -24,10 +25,13 @@ void ImageProcessor::set_running(bool running)
 
 void ImageProcessor::start()
 {
+	_dao.init();
+
 	set_running(true);
 	_thread = new thread([this]() {
 		bool running;
 		string s_file;
+		string to_path;
 		string plate_number;
 		while (1)
 		{
@@ -58,13 +62,18 @@ void ImageProcessor::start()
 			if (s_file.empty())
 				continue;
 			plate_number = _recognizer.recognize(s_file);
-			if (plate_number.length() > 0)
+			if (plate_number.length() >= 8)
 			{
+				to_path = get_recognized_path();
 				//移动到 recognized
-				move_to_path(s_file.c_str(), get_recognized_path());
+				move_to_path(s_file.c_str(), to_path.c_str());
 
 				// todo: 保存数据
-
+				long t = time(NULL);
+				string nfn = get_full_name(to_path.c_str(),
+					parse_filename(s_file.c_str()).c_str());
+				Plate plate(plate_number, t, nfn.c_str());
+				_dao.save(plate);
 			}
 			else
 			{
@@ -84,6 +93,8 @@ void ImageProcessor::stop()
 		_thread->join();
 		delete _thread;
 	}
+
+	_dao.release();
 }
 
 void ImageProcessor::put(string file)

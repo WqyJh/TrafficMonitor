@@ -110,7 +110,7 @@ BOOL CTrafficMonitorDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
-
+	plateDao.set_gszFile("database.db");
 	plateDao.init();
 	
 	server = new Server("127.0.0.1", 50084);

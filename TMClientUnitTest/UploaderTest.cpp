@@ -11,8 +11,9 @@ namespace TMClientUnitTest
 	public:
 		TEST_METHOD(test_upload)
 		{
-			Uploader uploader;
-			Assert::AreEqual(0, uploader.upload("filepath", "filename"));
+			Assert::Fail();
+			//Uploader uploader;
+			//Assert::AreEqual(0, uploader.upload("filepath", "filename"));
 		}
 	};
 }

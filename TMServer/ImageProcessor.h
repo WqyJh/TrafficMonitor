@@ -6,6 +6,7 @@
 #include <queue>
 #include <thread>
 #include "PlateRecognizer.h"
+#include "PlateDao.h"
 
 class ImageProcessor
 {
@@ -43,6 +44,10 @@ private:
 	std::thread *_thread;
 
 	PlateRecognizer _recognizer;
+
+	PlateDao _dao;
+
+	std::string _db_name;
 
 	void set_running(bool running);
 };
