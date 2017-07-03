@@ -17,8 +17,17 @@ PlateDao::PlateDao(char* path)
 	gszFile = path;
 }
 
+PlateDao::PlateDao()
+{
+}
+
 PlateDao::~PlateDao()
 {
+}
+
+void PlateDao::set_gszFile(char* path)
+{
+	gszFile = path;
 }
 
 void PlateDao::init()

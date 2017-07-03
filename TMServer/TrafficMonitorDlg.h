@@ -15,7 +15,7 @@ class CTrafficMonitorDlg : public CDialogEx
 // 构造
 public:
 	CTrafficMonitorDlg(CWnd* pParent = NULL);	// 标准构造函数
-
+	~CTrafficMonitorDlg();
 // 对话框数据
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_TRAFFICMONITOR_DIALOG };

@@ -20,6 +20,8 @@ public:
 	PlateDao(char*);
 	PlateDao();
 	~PlateDao();
+	
+	void set_gszFile(char*);
 
 	/*
 	* Summary: 将一个Plate实例保存到数据库中

@@ -71,9 +71,11 @@ Plate &Plate::operator=(const Plate &p)
 	if (this != &p)
 	{
 		_id = p._id;
-		_number = p._number;
+		
 		_time = p._time;
 		_path = p._path;
+		_number = p._number;
+
 	}
 	return *this;
 }

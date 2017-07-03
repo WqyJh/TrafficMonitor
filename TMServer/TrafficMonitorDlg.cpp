@@ -109,6 +109,9 @@ BOOL CTrafficMonitorDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+
+	plateDao.init();
+
 	CRect rect;
 	serveList.GetClientRect(&rect);
 	serveList.SetExtendedStyle(serveList.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
@@ -116,24 +119,21 @@ BOOL CTrafficMonitorDlg::OnInitDialog()
 	serveList.InsertColumn(0, _T("车牌号"), LVCFMT_CENTER, rect.Width() / 3, 0);
 	serveList.InsertColumn(1, _T("上传日期"), LVCFMT_CENTER, rect.Width() /3 , 1);
 	serveList.InsertColumn(2, _T("图片地址"), LVCFMT_CENTER, rect.Width() / 3, 2);
-
-	CTrafficMonitorDlg Ctmd;
-	Ctmd.OnBnClickedShowAll();//初始化页面时加载数据库中的内容
-
-	serveList.InsertItem(0, _T("01"));
-	serveList.SetItemText(0, 1, _T("沪GG9999"));
-	serveList.SetItemText(0, 2,_T("20170628"));
-	
-
-	serveList.InsertItem(0, _T("02"));
-	serveList.SetItemText(0, 1, _T("沪GG9999"));
-	serveList.SetItemText(0, 2, _T("2017069"));
-	Plate plate1("01", 1, "hsdgajd");
-	Plate plate2("02",2,"dfsdf");
-	plates.push_back(&plate1);
-	plates.push_back(&plate2);
-
+	CString ptime;
+	int i = 0;
+	for (auto iplate = plates.cbegin(); iplate != plates.cend(); ++iplate, ++i)//依次显示出查询到的内容
+	{
+		ptime.Format(_T("%ld"), (*iplate)->get_time());
+		serveList.InsertItem(i, (CString)(*iplate)->get_number().c_str());
+		serveList.SetItemText(i, 1, ptime);
+		serveList.SetItemText(i, 2, (CString)(*iplate)->get_path().c_str());
+	}
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
+}
+
+CTrafficMonitorDlg::~CTrafficMonitorDlg()
+{
+	plateDao.release();
 }
 
 void CTrafficMonitorDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -196,15 +196,11 @@ void CTrafficMonitorDlg::OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult)
 	if (-1 != pnml->iItem)
 	{
 		NowID = pnml->iItem;
-		/*CString pNum;
-		pNum.Format(_T("%ld"), NowID);
-		MessageBox(pNum);*/
-		USES_CONVERSION;//unicode  环境下CString 转换为std：：string
 		this->SetDlgItemTextW(IDC_EDIT2, serveList.GetItemText(pnml->iItem, 0));
 		this->SetDlgItemTextW(IDC_EDIT3, serveList.GetItemText(pnml->iItem, 1));
 		this->SetDlgItemTextW(IDC_EDIT4, serveList.GetItemText(pnml->iItem, 2));
 		//根据选定行的内容给plate赋值
-		plate = *(plates[NowID]);
+		plate = *plates[NowID];
 	}
 	*pResult = 0;
 }
@@ -264,10 +260,6 @@ void CTrafficMonitorDlg::OnBnClickedUpdate()//更新某条信息
 	serveList.SetItemText(NowID, 0,carNum);
 	serveList.SetItemText(NowID, 1, time);
 	serveList.SetItemText(NowID, 2, path);
-	//信息显示框置空
-	this->SetDlgItemTextW(IDC_EDIT2, NULL);
-	this->SetDlgItemTextW(IDC_EDIT3, NULL);
-	this->SetDlgItemTextW(IDC_EDIT4, NULL);
 	NowID = -1;
 	// TODO: 在此添加控件通知处理程序代码
 }
@@ -316,3 +308,5 @@ void CTrafficMonitorDlg::OnBnClickedShowAll()
 
 	// TODO: 在此添加控件通知处理程序代码
 }
+
+

@@ -1,5 +1,5 @@
-
-// TMClientDlg.cpp : ÊµÏÖÎÄ¼ş
+ï»¿
+// TMClientDlg.cpp : å®ç°æ–‡ä»¶
 //
 
 #include "stdafx.h"
@@ -13,22 +13,22 @@
 #endif
 
 
-// ÓÃÓÚÓ¦ÓÃ³ÌĞò¡°¹ØÓÚ¡±²Ëµ¥ÏîµÄ CAboutDlg ¶Ô»°¿ò
+// ç”¨äºåº”ç”¨ç¨‹åºâ€œå…³äºâ€èœå•é¡¹çš„ CAboutDlg å¯¹è¯æ¡†
 
 class CAboutDlg : public CDialogEx
 {
 public:
 	CAboutDlg();
 
-// ¶Ô»°¿òÊı¾İ
+// å¯¹è¯æ¡†æ•°æ®
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_ABOUTBOX };
 #endif
 
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV æ”¯æŒ
 
-// ÊµÏÖ
+// å®ç°
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -46,7 +46,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CTMClientDlg ¶Ô»°¿ò
+// CTMClientDlg å¯¹è¯æ¡†
 
 
 
@@ -73,15 +73,15 @@ BEGIN_MESSAGE_MAP(CTMClientDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CTMClientDlg ÏûÏ¢´¦Àí³ÌĞò
+// CTMClientDlg æ¶ˆæ¯å¤„ç†ç¨‹åº
 
 BOOL CTMClientDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// ½«¡°¹ØÓÚ...¡±²Ëµ¥ÏîÌí¼Óµ½ÏµÍ³²Ëµ¥ÖĞ¡£
+	// å°†â€œå…³äº...â€èœå•é¡¹æ·»åŠ åˆ°ç³»ç»Ÿèœå•ä¸­ã€‚
 
-	// IDM_ABOUTBOX ±ØĞëÔÚÏµÍ³ÃüÁî·¶Î§ÄÚ¡£
+	// IDM_ABOUTBOX å¿…é¡»åœ¨ç³»ç»Ÿå‘½ä»¤èŒƒå›´å†…ã€‚
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
 
@@ -99,17 +99,17 @@ BOOL CTMClientDlg::OnInitDialog()
 		}
 	}
 
-	// ÉèÖÃ´Ë¶Ô»°¿òµÄÍ¼±ê¡£  µ±Ó¦ÓÃ³ÌĞòÖ÷´°¿Ú²»ÊÇ¶Ô»°¿òÊ±£¬¿ò¼Ü½«×Ô¶¯
-	//  Ö´ĞĞ´Ë²Ù×÷
-	SetIcon(m_hIcon, TRUE);			// ÉèÖÃ´óÍ¼±ê
-	SetIcon(m_hIcon, FALSE);		// ÉèÖÃĞ¡Í¼±ê
+	// è®¾ç½®æ­¤å¯¹è¯æ¡†çš„å›¾æ ‡ã€‚  å½“åº”ç”¨ç¨‹åºä¸»çª—å£ä¸æ˜¯å¯¹è¯æ¡†æ—¶ï¼Œæ¡†æ¶å°†è‡ªåŠ¨
+	//  æ‰§è¡Œæ­¤æ“ä½œ
+	SetIcon(m_hIcon, TRUE);			// è®¾ç½®å¤§å›¾æ ‡
+	SetIcon(m_hIcon, FALSE);		// è®¾ç½®å°å›¾æ ‡
 
-	// TODO: ÔÚ´ËÌí¼Ó¶îÍâµÄ³õÊ¼»¯´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ é¢å¤–çš„åˆå§‹åŒ–ä»£ç 
 	CRect rect;
 	clientList.GetClientRect(&rect);
 	clientList.SetExtendedStyle(clientList.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
-	clientList.InsertColumn(0, _T("ÎÄ¼şÃû"), LVCFMT_CENTER, rect.Width() / 2, 0);
-	clientList.InsertColumn(1, _T("×´Ì¬"), LVCFMT_CENTER, rect.Width() / 2, 1);
+	clientList.InsertColumn(0, _T("æ–‡ä»¶å"), LVCFMT_CENTER, rect.Width() / 2, 0);
+	clientList.InsertColumn(1, _T("çŠ¶æ€"), LVCFMT_CENTER, rect.Width() / 2, 1);
 
 	//CRgn rgntmp;
 	//RECT rc;
@@ -117,7 +117,7 @@ BOOL CTMClientDlg::OnInitDialog()
 	//rgntmp.CreateRoundRectRgn(rc.left + 3, rc.top + 3, rc.right - rc.left, rc.bottom - rc.top - 3, 6, 6);
 	//SetWindowRgn(rgntmp, TRUE);
 
-	return TRUE;  // ³ı·Ç½«½¹µãÉèÖÃµ½¿Ø¼ş£¬·ñÔò·µ»Ø TRUE
+	return TRUE;  // é™¤éå°†ç„¦ç‚¹è®¾ç½®åˆ°æ§ä»¶ï¼Œå¦åˆ™è¿”å› TRUE
 }
 
 void CTMClientDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -133,19 +133,19 @@ void CTMClientDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 }
 
-// Èç¹ûÏò¶Ô»°¿òÌí¼Ó×îĞ¡»¯°´Å¥£¬ÔòĞèÒªÏÂÃæµÄ´úÂë
-//  À´»æÖÆ¸ÃÍ¼±ê¡£  ¶ÔÓÚÊ¹ÓÃÎÄµµ/ÊÓÍ¼Ä£ĞÍµÄ MFC Ó¦ÓÃ³ÌĞò£¬
-//  Õâ½«ÓÉ¿ò¼Ü×Ô¶¯Íê³É¡£
+// å¦‚æœå‘å¯¹è¯æ¡†æ·»åŠ æœ€å°åŒ–æŒ‰é’®ï¼Œåˆ™éœ€è¦ä¸‹é¢çš„ä»£ç 
+//  æ¥ç»˜åˆ¶è¯¥å›¾æ ‡ã€‚  å¯¹äºä½¿ç”¨æ–‡æ¡£/è§†å›¾æ¨¡å‹çš„ MFC åº”ç”¨ç¨‹åºï¼Œ
+//  è¿™å°†ç”±æ¡†æ¶è‡ªåŠ¨å®Œæˆã€‚
 
 void CTMClientDlg::OnPaint()
 {
 	if (IsIconic())
 	{
-		CPaintDC dc(this); // ÓÃÓÚ»æÖÆµÄÉè±¸ÉÏÏÂÎÄ
+		CPaintDC dc(this); // ç”¨äºç»˜åˆ¶çš„è®¾å¤‡ä¸Šä¸‹æ–‡
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
-		// Ê¹Í¼±êÔÚ¹¤×÷Çø¾ØĞÎÖĞ¾ÓÖĞ
+		// ä½¿å›¾æ ‡åœ¨å·¥ä½œåŒºçŸ©å½¢ä¸­å±…ä¸­
 		int cxIcon = GetSystemMetrics(SM_CXICON);
 		int cyIcon = GetSystemMetrics(SM_CYICON);
 		CRect rect;
@@ -153,7 +153,7 @@ void CTMClientDlg::OnPaint()
 		int x = (rect.Width() - cxIcon + 1) / 2;
 		int y = (rect.Height() - cyIcon + 1) / 2;
 
-		// »æÖÆÍ¼±ê
+		// ç»˜åˆ¶å›¾æ ‡
 		dc.DrawIcon(x, y, m_hIcon);
 	}
 	else
@@ -162,8 +162,8 @@ void CTMClientDlg::OnPaint()
 	}
 }
 
-//µ±ÓÃ»§ÍÏ¶¯×îĞ¡»¯´°¿ÚÊ±ÏµÍ³µ÷ÓÃ´Ëº¯ÊıÈ¡µÃ¹â±ê
-//ÏÔÊ¾¡£
+//å½“ç”¨æˆ·æ‹–åŠ¨æœ€å°åŒ–çª—å£æ—¶ç³»ç»Ÿè°ƒç”¨æ­¤å‡½æ•°å–å¾—å…‰æ ‡
+//æ˜¾ç¤ºã€‚
 HCURSOR CTMClientDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
@@ -174,23 +174,23 @@ HCURSOR CTMClientDlg::OnQueryDragIcon()
 void CTMClientDlg::OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	NMLISTVIEW *pnml = (NMLISTVIEW*)pNMHDR;
 	CString str;
 	if (-1 != pnml->iItem)
-		str = clientList.GetItemText(pnml->iItem, 0);//»ñÈ¡µØÖ·
+		str = clientList.GetItemText(pnml->iItem, 0);//è·å–åœ°å€
 	CImage image;
 	image.Load(str);
 
-	//ÒÔÏÂÁ½¸ö¾ØĞÎÖ÷Òª×÷ÓÃÊÇ£¬»ñÈ¡¶Ô»°¿òÉÏÃæµÄPicture ControlµÄwidthºÍheight£¬
-	//²¢ÉèÖÃµ½Í¼Æ¬¾ØĞÎrectPicture£¬¸ù¾İÍ¼Æ¬¾ØĞÎrectPicture¶ÔÍ¼Æ¬½øĞĞ´¦Àí£¬
-	//×îºó»æÖÆÍ¼Æ¬µ½¶Ô»°¿òÉÏPicture ControlÉÏÃæ
-	CRect rectControl;                        //¿Ø¼ş¾ØĞÎ¶ÔÏó
-	CRect rectPicture;                        //Í¼Æ¬¾ØĞÎ¶ÔÏó
+	//ä»¥ä¸‹ä¸¤ä¸ªçŸ©å½¢ä¸»è¦ä½œç”¨æ˜¯ï¼Œè·å–å¯¹è¯æ¡†ä¸Šé¢çš„Picture Controlçš„widthå’Œheightï¼Œ
+	//å¹¶è®¾ç½®åˆ°å›¾ç‰‡çŸ©å½¢rectPictureï¼Œæ ¹æ®å›¾ç‰‡çŸ©å½¢rectPictureå¯¹å›¾ç‰‡è¿›è¡Œå¤„ç†ï¼Œ
+	//æœ€åç»˜åˆ¶å›¾ç‰‡åˆ°å¯¹è¯æ¡†ä¸ŠPicture Controlä¸Šé¢
+	CRect rectControl;                        //æ§ä»¶çŸ©å½¢å¯¹è±¡
+	CRect rectPicture;                        //å›¾ç‰‡çŸ©å½¢å¯¹è±¡
 
 	int x = image.GetWidth();
 	int y = image.GetHeight();
-	//Picture ControlµÄIDÎªIDC_IMAGE
+	//Picture Controlçš„IDä¸ºIDC_IMAGE
 	CWnd  *pWnd = GetDlgItem(IDC_STATIC);
 	pWnd->GetClientRect(rectControl);
 
@@ -202,9 +202,9 @@ void CTMClientDlg::OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult)
 
 	((CStatic*)GetDlgItem(IDC_STATIC))->SetBitmap(NULL);
 
-	//ÒÔÏÂÁ½ÖÖ·½·¨¶¼¿É»æÖÆÍ¼Æ¬
-	//image.StretchBlt(pDc->m_hDC, rectPicture, SRCCOPY); //½«Í¼Æ¬»æÖÆµ½Picture¿Ø¼ş±íÊ¾µÄ¾ØĞÎÇøÓò
-	image.Draw(pDc->m_hDC, rectPicture);                //½«Í¼Æ¬»æÖÆµ½Picture¿Ø¼ş±íÊ¾µÄ¾ØĞÎÇøÓò
+	//ä»¥ä¸‹ä¸¤ç§æ–¹æ³•éƒ½å¯ç»˜åˆ¶å›¾ç‰‡
+	//image.StretchBlt(pDc->m_hDC, rectPicture, SRCCOPY); //å°†å›¾ç‰‡ç»˜åˆ¶åˆ°Pictureæ§ä»¶è¡¨ç¤ºçš„çŸ©å½¢åŒºåŸŸ
+	image.Draw(pDc->m_hDC, rectPicture);                //å°†å›¾ç‰‡ç»˜åˆ¶åˆ°Pictureæ§ä»¶è¡¨ç¤ºçš„çŸ©å½¢åŒºåŸŸ
 
 	image.Destroy();
 	pWnd->ReleaseDC(pDc);
@@ -213,12 +213,12 @@ void CTMClientDlg::OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult)
 }
 
 
-void CTMClientDlg::OpenFile()  // ²Ëµ¥À¸  ´ò¿ªÎÄ¼ş  Ô¤ÀÀ Ñ¡Ôñ
+void CTMClientDlg::OpenFile()  // èœå•æ   æ‰“å¼€æ–‡ä»¶  é¢„è§ˆ é€‰æ‹©
 {
 	CFileDialog filedlg(TRUE, NULL, NULL, OFN_ALLOWMULTISELECT, _T("Picture files(*.bmp;*.jpg;*.jpeg;*.png;*.gif)|*.bmp;*.jpg;*.jpeg;*.png;*.gif|"), NULL);
-	//ÎÄ¼ş¹ıÂËÆ÷
-	USES_CONVERSION;//unicode  »·¾³ÏÂCString ×ª»»Îªstd£º£ºstring
-	if (filedlg.DoModal() == IDOK)//ÅúÁ¿Ñ¡Ôñ
+	//æ–‡ä»¶è¿‡æ»¤å™¨
+	USES_CONVERSION;//unicode  ç¯å¢ƒä¸‹CString è½¬æ¢ä¸ºstdï¼šï¼šstring
+	if (filedlg.DoModal() == IDOK)//æ‰¹é‡é€‰æ‹©
 	{
 		POSITION pos;
 		CString path;
@@ -226,9 +226,9 @@ void CTMClientDlg::OpenFile()  // ²Ëµ¥À¸  ´ò¿ªÎÄ¼ş  Ô¤ÀÀ Ñ¡Ôñ
 		while (pos != NULL)
 		{
 			
-		     path =filedlg.GetNextPathName(pos);//»ñÈ¡¶à¸öÎÄ¼şÂ·¾¶	
-			clientList.InsertItem(fileNum, path);   //²åÈëÎÄ¼şÂ·¾¶µ½list control
-			clientList.SetItemText(fileNum, 1, _T("0"));
+		     path =filedlg.GetNextPathName(pos);//è·å–å¤šä¸ªæ–‡ä»¶è·¯å¾„	
+			clientList.InsertItem(fileNum, path);   //æ’å…¥æ–‡ä»¶è·¯å¾„åˆ°list control
+			clientList.SetItemText(fileNum, 1, _T("å¾…ä¸Šä¼ "));
 			filename.push_back(W2A(path.Mid(path.ReverseFind('\\') + 1)));
 			++fileNum;
 		}
@@ -238,18 +238,23 @@ void CTMClientDlg::OpenFile()  // ²Ëµ¥À¸  ´ò¿ªÎÄ¼ş  Ô¤ÀÀ Ñ¡Ôñ
 }
 
 
-void CTMClientDlg::HelpInformation()//µã»÷°ïÖú --°æ±¾ĞÅÏ¢   ÏÔÊ¾°æ±¾ĞÅÏ¢
+void CTMClientDlg::HelpInformation()//ç‚¹å‡»å¸®åŠ© --ç‰ˆæœ¬ä¿¡æ¯   æ˜¾ç¤ºç‰ˆæœ¬ä¿¡æ¯
 {
 	CDialog *dlg = new CDialog;
-	dlg->Create(IDD_ABOUTBOX, this);//°æ±¾ĞÅÏ¢
+	dlg->Create(IDD_ABOUTBOX, this);//ç‰ˆæœ¬ä¿¡æ¯
 	dlg->ShowWindow(SW_SHOW);
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 }
 
 
 void CTMClientDlg::OnBnClickedUpload()
 {
 	Uploader uploadFile;
-	uploadFile.batch_upload(filepath, filename);
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	int i = 0;
+	int num = uploadFile.batch_upload(filepath, filename);
+	for (; i <num; ++i)
+	{
+		clientList.SetItemText(i, 1, _T("ä¸Šä¼ æˆåŠŸ"));
+	}
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 }
