@@ -54,6 +54,9 @@
     <ClInclude Include="Server.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="FileManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TrafficMonitor.cpp">
@@ -84,6 +87,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\TMClient\FileInfo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FileManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

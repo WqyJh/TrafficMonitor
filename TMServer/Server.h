@@ -6,6 +6,7 @@
 #include <string>
 #include <mutex>
 #include <vector>
+#include "PlateRecognizer.h"
 
 /*******************************************************************************
 * Author: WqyJh
@@ -77,6 +78,8 @@ private:
 
 	std::thread *_serv_thread;
 
+	PlateRecognizer _recognizer;
+
 	void set_running(bool running);
 
 	int create_bind_listen();
@@ -86,6 +89,8 @@ private:
 	int accept_file(int clnt_sock);
 
 	int send_message(SOCKET clnt_sock, std::string msg);
+
+	inline std::string get_file_name(std::string filename);
 
 };
 

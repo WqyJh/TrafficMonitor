@@ -6,25 +6,11 @@
 #include <thread>
 #include <direct.h>
 #include "Server.h"
+#include "FileManager.h"
 #include "..\TMClient\FileInfo.h"
 #pragma comment (lib, "ws2_32.lib")  //加载 ws2_32.dll
 
-
-static std::string get_postfix(int len)
-{
-	char *s = new char[len + 2];
-	s[0] = '_';
-	srand((unsigned int)clock());
-	for (int i = 1; i < len + 1; ++i) {
-		s[i] = 97 + rand() % 26;
-	}
-	s[len + 1] = '\0';
-	auto rets = std::string(s);
-	delete[] s;
-	return rets;
-}
-
-static inline std::string get_file_name(std::string filename)
+std::string Server::get_file_name(std::string filename)
 {
 	std::string postfix = get_postfix(4);
 	unsigned long index = filename.find_last_of('.');
@@ -151,7 +137,7 @@ int Server::accept_file(int clnt_sock)
 	{
 		printf("Receiving %s  length = %d\n", info.filename, info.file_len);
 		// 新建一个文件，准备写入数据
-		std::string filename = get_file_name(info.filename);
+		std::string filename = get_full_name(get_raw_path(), info.filename);
 		std::ofstream file;
 		file.open(filename, std::ios::out | std::ios::trunc | std::ios::binary);
 		while (total < info.file_len) {
@@ -169,9 +155,6 @@ int Server::accept_file(int clnt_sock)
 		putchar('\n');
 		file.flush();
 		file.close();
-
-		/*sprintf(buf, "file %s accepted\n", info.filename);
-		send(clnt_sock, buf, _buf_size, 0);*/
 	}
 	else
 	{
